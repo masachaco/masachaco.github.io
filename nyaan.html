@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <title>にゃーんにゃんにゃんにゃん「Nyaan」」</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        const execute = () => {
+            console.log("nyaan");
+            const memory = {};
+            var pointer = 0;
+            var message = '';
+            var input = $('#input').val();
+            input = nyaanToBrainF(input);
+            console.log(input);
+            for (var index = 0; index < input.length; index++) {
+                var operator = input.charAt(index);
+                switch (operator) {
+                    case '>':
+                        pointer++;
+                        break;
+                    case '<':
+                        pointer--;
+                        break;
+                    case '+':
+                        memory[pointer] = readMemory(memory, pointer) + 1;
+                        break;
+                    case '-':
+                        memory[pointer] = readMemory(memory, pointer) - 1;
+                        break;
+                    case '.':
+                        message += String.fromCharCode(readMemory(memory, pointer));
+                        break;
+                    case ',':
+                        break;
+                    case '[':
+                        if (readMemory(memory, pointer) == 0) {
+                            index = getLoopEndIndex(input, index);
+                        }
+                        break;
+                    case ']':
+                        if (readMemory(memory, pointer) != 0) {
+                            index = getLoopStartIndex(input, index);
+                        }
+                        break;
+                    default:
+                }
+            }
+            console.log(message);
+            $('#output').val(message);
+        };
+
+        const readMemory = (memory, pointer) => {
+            return memory[pointer] ? memory[pointer] : 0
+        };
+
+        const getLoopStartIndex = (input, index) => {
+            var counter = 0;
+            while (counter >= 0) {
+                index--;
+                if (input.charAt(index) == '[') counter--;
+                if (input.charAt(index) == ']') counter++;
+            }
+            return index;
+        };
+
+        const getLoopEndIndex = (input, index) => {
+            var counter = 0;
+            while (counter >= 0) {
+                index++;
+                if (input.charAt(index) == '[') counter++;
+                if (input.charAt(index) == ']') counter--;
+            }
+            return index;
+        };
+
+        const nyaanToBrainF = (input) => {
+            input = replaceAll(input, 'にゃーん', '\\+');
+            input = replaceAll(input, 'みゃーお', ',');
+            input = replaceAll(input, 'なーお', '\\]');
+            input = replaceAll(input, 'ごろ', '>');
+            input = replaceAll(input, 'みゃ', '<');
+            input = replaceAll(input, 'にゃ', '-');
+            input = replaceAll(input, 'みぃ', '\\.');
+            return replaceAll(input, 'なー', '\\[');
+        };
+
+        const replaceAll = (str, before, after) => {
+            return str.split(before).join(after);
+        };
+
+            //にゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんなーにゃごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんごろごろごろごろごろごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんみゃみゃみゃみゃみゃみゃみゃみゃみゃみゃみゃみゃなーおごろにゃにゃごろにゃにゃにゃごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃにゃにゃごろにゃーんにゃーんごろにゃにゃにゃにゃごろごろごろごろにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんにゃーんなーごろごろごろにゃーんなーにゃみゃみゃなーにゃごろごろにゃーんごろにゃーんみゃみゃみゃなーおごろごろごろなーにゃみゃみゃみゃにゃーんごろごろごろなーおにゃーんみゃなーなーにゃなーおごろにゃみゃみゃなーにゃごろにゃーんごろにゃーんみゃみゃなーおごろごろなーにゃみゃみゃにゃーんごろごろなーおにゃーんみゃなーなーにゃなーおごろにゃみゃみゃみゃにゃーんごろにゃごろなーおごろなーにゃみゃみゃみゃにゃにゃにゃにゃにゃにゃにゃにゃにゃごろにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろごろごろごろごろにゃーんみゃみゃみゃなーおみゃなーおごろなーにゃみゃにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんなーみゃみゃにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろごろにゃなーおみゃにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんごろごろなーおごろごろごろなーおみゃみゃみゃみゃみゃみゃなーみゃみゃみゃみゃなーおごろにゃなーにゃみゃみゃにゃーんごろにゃーんごろなーおみゃなーにゃごろにゃーんみゃなーおにゃーんみゃなーなーにゃなーおごろにゃみゃなーおごろなーにゃごろにゃーんにゃーんにゃーんみゃみゃみゃみゃみゃみゃみゃみゃみゃみぃごろみぃごろごろごろみぃみぃごろごろにゃーんごろごろなーおごろごろにゃなーにゃみゃみゃみゃにゃーんごろにゃーんごろごろなーおみゃみゃなーにゃごろごろにゃーんみゃみゃなーおにゃーんみゃなーなーにゃなーおごろにゃみゃなーおごろなーにゃごろごろにゃーんにゃーんにゃーんにゃーんにゃーんみゃみゃみゃみゃみゃみゃみゃみゃみぃごろみぃごろみぃみぃごろごろにゃーんごろごろなーおみゃにゃーんみゃなーなーにゃなーおごろにゃみゃなーおごろなーにゃごろごろごろごろごろなーごろごろごろごろなーおみゃみゃみゃみゃなーみぃみゃみゃみゃみゃなーおみゃなーおみゃみゃみぃごろごろごろごろごろごろにゃなーお'
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <div class="layer">
+    <h1>にゃーんにゃんにゃんにゃん「Nyaan」(猫様向けプログラミング言語「Nyaan」)</h1>
+    <span>にゃーにゃごろにゃん(インプット)</span><br/>
+    <textarea id="input"  rows="10" cols="100">🐈にゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんなーごろにゃーんにゃーんにゃーんにゃーんなーごろにゃーんにゃーんごろにゃーんにゃーんにゃーんごろにゃーんにゃーんにゃーんごろにゃーんみゃみゃみゃみゃにゃなーおごろにゃーんごろにゃーんごろにゃごろごろにゃーんなーみゃなーおみゃにゃなーおごろごろみぃごろにゃにゃにゃみぃにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんにゃーんみぃみぃにゃーんにゃーんにゃーんみぃごろごろみぃみゃにゃみぃみゃみぃにゃーんにゃーんにゃーんみぃにゃにゃにゃにゃにゃにゃみぃにゃにゃにゃにゃにゃにゃにゃにゃみぃごろごろにゃーんみぃごろにゃーんにゃーんみぃ🐈
+     </textarea><br/><br/>
+    <button onclick="execute();">にゃーん🐈</button><br/><br/>
+    <span>にゃんごろにゃんにゃん(アウトプット)</span><br/>
+    <textarea id="output" rows="10" cols="100">        
+    </textarea><br/>
+    
+    <br/>
+    <h2> にゃんにゃーにゃ</h2>
+    「ごろ」 にゃんごろにゃんにゃんみーお<br/>
+    「みゃ」 にゃんごろにゃんにゃんなー<br/>
+    「にゃーん」 にゃんにゃーにゃにゃなー<br/>
+    「にゃ」 にゃんにゃーにゃにゃーごろ<br/>
+    「みぃ」 にゃん<br/>
+    「なー」 にゃんにゃんなーごにゃん「なーお」<br/>
+    「なーお」 にゃんにゃんにゃごにゃん「なー」<br/>
+    
+            
+    <br/>
+    <h2> How to use</h2>
+    「ごろ」 ポインタをインクリメント<br/>
+    「みゃ」 ポインタをデクリメント<br/>
+    「にゃーん」 ポインタが指す値をインクリメント<br/>
+    「にゃ」 ポインタが指す値ををデクリメント<br/>
+    「みぃ」 ポインタが指す値を出力<br/>
+    「なー」 ポインタが指す値が0の場合、対応する 「なーお」の直後にジャンプ<br/>
+    「なーお」 ポインタが指す値が0でない場合、対応する「なー」の直後にジャンプ。<br/><br/>
+    
+            
+    本ページはエイプリルフールのおふざけ企画です。<br/>
+    Hellow, WorldのサンプルコードはWikipediaの以下の記事を参考にしました。<br/>
+    <a href="https://en.wikipedia.org/wiki/Brainfuck">https://en.wikipedia.org/wiki/Brainfuck</a><br/>
+    本サイトを利用したことにより何らかの損害が発生いたしましても、当方は一切責任を負いません。<br/>
+    制作：<a href="https://twitter.com/masachaco">@masachaco</a><br/>
+    </div>
+</body>
+
+</html>
